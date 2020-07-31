@@ -5,6 +5,7 @@ services:
     build: 
       context: ./app
       dockerfile: Dockerfile.prod
+    image: 232544827920.dkr.ecr.us-east-1.amazonaws.com/django-ec2:web
     command: gunicorn lunacon_production_django.wsgi:application --bind 0.0.0.0:8000
     volumes: 
       - static_volume:/home/app/web/staticfiles
@@ -14,7 +15,9 @@ services:
       - ./.env.prod
 
   nginx:
+    container_name: nginx
     build: ./nginx
+    image: 232544827920.dkr.ecr.us-east-1.amazonaws.com/django-ec2:nginx
     volumes: 
       - static_volume:/home/app/web/staticfiles
     ports: 
