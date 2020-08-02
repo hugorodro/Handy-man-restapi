@@ -32,7 +32,13 @@ class CustomObtainAuthToken(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
         response = super(CustomObtainAuthToken, self).post(request, *args, **kwargs)
         token = Token.objects.get(key=response.data['token'])
-        return Response({'token': token.key, 'id': token.user_id})
+        user = User.objects.get(pk=token.user_id)
+        return Response({
+            'token': token.key, 
+            'id': token.user_id,
+            'first_name': user.first_name,
+            'last_name': user.last_name
+        })
 
 class OrderView(viewsets.ModelViewSet):
     queryset = Order.objects.all()
