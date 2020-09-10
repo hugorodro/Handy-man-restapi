@@ -17,10 +17,10 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from restapi.views import CustomObtainAuthToken, OrderView, ProductOrderView, ProductView, JobSiteView, VendorView, UserView
+from restapi.views import HomeView, TermsView, PrivacyView
 from rest_framework.authtoken.views import obtain_auth_token
 from django.views.generic import RedirectView
 from django.conf.urls import url
-
 
 
 router = routers.DefaultRouter()
@@ -35,17 +35,16 @@ router.register(r'vendor', VendorView)
 # router.register(r'user_info', UserExistsView)
 # router.register(r'user', UserExistsView)
 
- 
+
 urlpatterns = [
-    path('', include(router.urls)),
+    # restapi views
+    path('restapi/', include(router.urls)),
     path('admin/', admin.site.urls),
-    path('login/', CustomObtainAuthToken.as_view(), name='login')
 
-    # path('home/', views.home, name= 'home'),
-    # path('placeorder', views.placeorder, name= 'placeorder'),
-    # path('placeorder/placeorders', views.placeorders, name = 'placeorders'),
-    # # url(r'^favicon\.ico$',RedirectView.as_view(url='/static/images/favicon.ico')),
-    # path('', views.login_request, name="login"),
+    # token authorization
+    path('login/', CustomObtainAuthToken.as_view(), name='login'),
+    # template views
+    path('', HomeView.as_view(), name="home"),
+    path('terms/', TermsView.as_view(), name="terms"),
+    path('privacy/', PrivacyView.as_view(), name="privacy"),
 ]
-
-

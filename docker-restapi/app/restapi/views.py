@@ -20,6 +20,8 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from django_filters import rest_framework as filters
 
+# import Template view Module
+from django.views.generic.base import TemplateView 
 
 
 class UserView(viewsets.ModelViewSet):
@@ -79,94 +81,16 @@ class VendorView(viewsets.ModelViewSet):
     serializer_class = VendorSerializer
     filter_backends = [filters.DjangoFilterBackend]
 
- 
-# class EquipmentView(viewsets.ModelViewSet):
-#     queryset = Equipment.objects.all()
-#     serializer_class = EquipmentSerializer
 
-# class EquipmentStatusView(viewsets.ModelViewSet):
-#     queryset = EquipmentStatus.objects.all()
-#     serializer_class = EquipmentStatusSerializer
 
  
-# class UserExistsView(viewsets.ModelViewSet):
+# html template views
 
-#     queryset = User.objects.all()
-#     serializer_class = UserSerializer
-    
+class HomeView(TemplateView):
+    template_name = "restapi/home.html"
 
-# def home(request):
-#     return render(request, 'lunaconAPI/home.html')
+class PrivacyView(TemplateView):
+    template_name = "restapi/privacy_policy.html"
 
-# def placeorder(request):
-#     product_info = ProductView.queryset
-#     multiple_form = MultipleOrderForm
-#     if request.method == 'POST':
-#         print(9)
-#         filled_form = OrderForm(request.POST)
-#         if filled_form.is_valid():
-#             print(8)
-#             filled_form.save()
-#             note = 'Your order will will placed by the end of the week!'
-#             new_form = OrderForm()
-#             return render(request, 'lunaconAPI/placeorder.html', {'product_info': product_info,'orderform':new_form, 'note':note, 'multiple_form':multiple_form})
-#     else:
-#         print(99)
-#         form = OrderForm()
-#         return render(request, 'lunaconAPI/placeorder.html', {'product_info': product_info,'orderform':form, 'multiple_form':multiple_form})
-
-# def placeorders(request):
-#     print(1)
-#     product_info = ProductView.queryset
-#     number_of_products = 2
-#     filled_multiple_products_form = MultipleOrderForm(request.GET)
-#     if filled_multiple_products_form.is_valid():
-#         print(2)
-#         number_of_products = filled_multiple_products_form.cleaned_data['number']
-#     print(3) 
-#     OrderFormSet = formset_factory(OrderForm, extra=number_of_products)
-#     formset = OrderFormSet()
-#     if request.method == 'POST':
-#         print(4)
-#         filled_formset = OrderFormSet(request.POST)
-#         if filled_formset.is_valid():
-#             print(5)
-            
-#             note = 'Products have been ordered'
-#         else:
-#             print(7)
-#             note = 'Order was not created, try again'
-#         return render(request, 'lunaconAPI/placeorders.html', {'product_info': product_info, 'note':note,'formset': formset})
-#     else: 
-#         print(6)
-#         return render(request, 'lunaconAPI/placeorders.html', {'product_info': product_info, 'formset': formset})
-
-
-# def login_request(request):
-#     if request.method == 'POST':
-#         form = AuthenticationForm(request=request, data=request.POST)
-#         if form.is_valid():
-#             username = form.cleaned_data.get('username')
-#             password = form.cleaned_data.get('password')
-#             user = authenticate(username=username, password=password)
-#             if user is not None:
-#                 login(request, user)
-#                 messages.info(request, f"You are now logged in as {username}")
-#                 return render(request, 'lunaconAPI/home.html')
-
-#             else:
-#                 messages.error(request, "Invalid username or password.")
-#         else:
-#             messages.error(request, "Invalid username or password.")
-#     form = AuthenticationForm()
-#     return render(request = request,
-#                     template_name = "lunaconAPI/login.html",
-#                     context={"form":form})
-
-
-# def logout_request(request):
-#     logout(request)
-#     messages.info(request, "Logged out successfully!")
-#     return render(request, 'lunaconAPI/login.html')
-
-
+class TermsView(TemplateView):
+    template_name = "restapi/terms_and_conditions.html"
